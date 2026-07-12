@@ -459,6 +459,10 @@ const SUPABASE_URL = "https://hiargrondtttebscedam.supabase.co";
 const SUPABASE_KEY = "sb_publishable_GKxEvIwW6cLc30XCGYldSg_FDJXgUTv";
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+// Link di acquisto (Stripe Payment Link).
+// SOSTITUISCI il valore qui sotto con il tuo Payment Link reale.
+const PAYMENT_LINK = "https://buy.stripe.com/test_8x2eVe5rY2SG0UD60N8IU00";
+
 function AuthGate() {
   const [session, setSession] = useState(null);
   const [checkingSession, setCheckingSession] = useState(true);
@@ -467,6 +471,8 @@ function AuthGate() {
   const [otpCode, setOtpCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  // Stato del controllo pagamento: checking | paid | unpaid | error
+  const [paidStatus, setPaidStatus] = useState("checking");
 
   React.useEffect(() => {
     sb.auth.getSession().then(({ data }) => {
@@ -478,6 +484,25 @@ function AuthGate() {
     });
     return () => listener.subscription.unsubscribe();
   }, []);
+
+  // ============ CONTROLLO PAGAMENTO (paid_users) ============
+  // Dopo il login, verifica se l'email dell'utente risulta tra i paganti.
+  // La RLS su paid_users permette a ogni utente di leggere SOLO la propria riga.
+  async function checkPaid(currentSession) {
+    if (!currentSession) return;
+    setPaidStatus("checking");
+    const { data, error: err } = await sb
+      .from("paid_users")
+      .select("email")
+      .eq("email", currentSession.user.email.toLowerCase())
+      .maybeSingle();
+    if (err) { setPaidStatus("error"); return; }
+    setPaidStatus(data ? "paid" : "unpaid");
+  }
+
+  React.useEffect(() => {
+    if (session) { checkPaid(session); } else { setPaidStatus("checking"); }
+  }, [session]);
 
   async function handleSendOtp() {
     setError("");
@@ -511,6 +536,62 @@ function AuthGate() {
   }
 
   if (session) {
+    // ---- 1. Controllo pagamento in corso ----
+    if (paidStatus === "checking") {
+      return (
+        <div style={{ backgroundColor: COLORS.bgDeep, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <span style={{ color: COLORS.mutedDim, fontFamily: "'Inter', sans-serif" }}>Verifico il tuo acquisto...</span>
+        </div>
+      );
+    }
+
+    // ---- 2. Errore tecnico nella verifica ----
+    if (paidStatus === "error") {
+      return (
+        <div style={{ backgroundColor: COLORS.bgDeep, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px", fontFamily: "'Inter', sans-serif" }}>
+          <div style={{ backgroundColor: COLORS.bgPanel, border: `1px solid ${COLORS.border}`, borderRadius: "10px", padding: "32px", maxWidth: "420px", width: "100%", textAlign: "center" }}>
+            <p style={{ color: COLORS.coral, fontSize: "14px", marginBottom: "16px" }}>
+              ⚠ Non riesco a verificare il tuo acquisto in questo momento. Riprova tra qualche istante.
+            </p>
+            <button onClick={() => checkPaid(session)}
+              style={{ backgroundColor: COLORS.teal, color: COLORS.bgDeep, border: "none", borderRadius: "6px", padding: "12px 24px", fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: "14px", cursor: "pointer" }}>
+              Riprova
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // ---- 3. Utente loggato ma senza acquisto ----
+    if (paidStatus === "unpaid") {
+      return (
+        <div style={{ backgroundColor: COLORS.bgDeep, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px", fontFamily: "'Inter', sans-serif" }}>
+          <div style={{ backgroundColor: COLORS.bgPanel, border: `1px solid ${COLORS.border}`, borderRadius: "10px", padding: "32px", maxWidth: "420px", width: "100%" }}>
+            <h1 style={{ color: COLORS.ink, fontFamily: "'Space Grotesk', sans-serif", fontSize: "22px", fontWeight: 700, margin: "0 0 6px" }}>Accesso non ancora attivo</h1>
+            <p style={{ color: COLORS.muted, fontSize: "13px", lineHeight: 1.6, marginBottom: "8px" }}>
+              Sei entrato come <span style={{ color: COLORS.tealBright, fontFamily: "'IBM Plex Mono', monospace" }}>{session.user.email}</span>, ma non risulta ancora un acquisto associato a questa email.
+            </p>
+            <p style={{ color: COLORS.mutedDim, fontSize: "12px", lineHeight: 1.6, marginBottom: "20px" }}>
+              Se hai già acquistato, assicurati di aver usato la <strong style={{ color: COLORS.muted }}>stessa email</strong> nel pagamento. L'attivazione dopo il pagamento è automatica e richiede al massimo un paio di minuti.
+            </p>
+            <a href={PAYMENT_LINK} target="_blank" rel="noopener noreferrer"
+              style={{ display: "block", textAlign: "center", backgroundColor: COLORS.teal, color: COLORS.bgDeep, borderRadius: "6px", padding: "12px", fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: "14px", textDecoration: "none", marginBottom: "10px" }}>
+              Acquista l'accesso
+            </a>
+            <button onClick={() => checkPaid(session)}
+              style={{ width: "100%", backgroundColor: COLORS.bgDeep, color: COLORS.tealBright, border: `1px solid ${COLORS.teal}`, borderRadius: "6px", padding: "12px", fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: "14px", cursor: "pointer", marginBottom: "10px" }}>
+              Ho già pagato — ricontrolla
+            </button>
+            <button onClick={handleLogout}
+              style={{ width: "100%", backgroundColor: "transparent", color: COLORS.mutedDim, border: "none", padding: "8px", fontFamily: "'Inter', sans-serif", fontSize: "12px", cursor: "pointer" }}>
+              ← esci e usa un'altra email
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // ---- 4. Pagamento verificato: mostra la console ----
     return (
       <div>
         <div style={{ position: "fixed", top: 0, right: 0, zIndex: 10, padding: "12px 16px" }}>
