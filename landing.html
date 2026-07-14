@@ -159,9 +159,11 @@ footer a{color:var(--teal);text-decoration:none;margin-right:18px}
 <section id="prezzo"><div class="wrap">
   <div class="prezzo-box vetro">
     <div class="etichetta" data-t="pr_eti"></div>
-    <!-- PREZZO: modificare la costante PREZZO in fondo al file -->
-    <div class="cifra" id="prezzo-slot"></div>
+    <div style="display:inline-block;background:rgba(216,163,78,.14);border:1px solid var(--amber);color:var(--amber);font-family:'IBM Plex Mono';font-size:12px;letter-spacing:1.5px;padding:5px 14px;border-radius:20px;margin-bottom:10px" data-t="pr_badge"></div>
+    <!-- PREZZI: modificare le costanti PREZZO_* in fondo al file -->
+    <div><span id="prezzo-pieno" style="font-family:'IBM Plex Mono';font-size:22px;color:var(--muto);text-decoration:line-through;margin-right:14px"></span><span class="cifra" id="prezzo-slot" style="display:inline"></span></div>
     <div style="color:var(--muto);font-size:14px" data-t="pr_tipo"></div>
+    <div style="margin-top:10px;color:var(--tealb);font-size:14px"><span data-t="pr_ref1"></span> <span class="mono" id="prezzo-ref" style="font-weight:600"></span> <span data-t="pr_ref2"></span></div>
     <ul>
       <li data-t="pr_l1"></li><li data-t="pr_l2"></li><li data-t="pr_l3"></li><li data-t="pr_l4"></li>
     </ul>
@@ -187,7 +189,9 @@ footer a{color:var(--teal);text-decoration:none;margin-right:18px}
 <script>
 // ============ CONFIGURAZIONE ============
 const BRAND  = "Zona di Accumulo BTC";   // <-- nome progetto: cambiare qui quando scelto
-const PREZZO = "€97";                    // <-- prezzo: da confermare prima del lancio
+const PREZZO_PIENO  = "€97";   // prezzo pieno dopo il periodo di lancio
+const PREZZO_LANCIO = "€49";   // prezzo dell'offerta di lancio
+const PREZZO_REF    = "€39";   // prezzo con codice referral partner
 // ========================================
 
 const T = {
@@ -217,7 +221,9 @@ it:{
  g5:"Ciclo 3 — massimo · febbraio 2021", g6:"Ciclo 3 — minimo · dicembre 2018",
  g7:"Ciclo 4 — massimo · dicembre 2024", g8:"Ciclo 4 — minimo · novembre 2022",
  bt_nota:"Il dossier completo (226 frame, cronologie e metodologia) è incluso nell'acquisto. Il backtest è materiale didattico: le performance passate non garantiscono risultati futuri.",
- pr_eti:"Accesso a vita", pr_tipo:"pagamento unico · nessun abbonamento",
+ pr_eti:"Accesso a vita", pr_badge:"OFFERTA DI LANCIO",
+ pr_tipo:"pagamento unico · nessun abbonamento · prezzo pieno €97 al termine del lancio",
+ pr_ref1:"oppure", pr_ref2:"con il codice referral di un partner",
  pr_l1:"Console completa con le 16 metriche", pr_l2:"Aggiornamenti dati 3 volte al giorno",
  pr_l3:"Dossier backtest 2011–2026 completo", pr_l4:"Aggiornamenti futuri della console inclusi",
  cta2:"Acquista l'accesso",
@@ -251,7 +257,9 @@ en:{
  g5:"Cycle 3 — top · February 2021", g6:"Cycle 3 — bottom · December 2018",
  g7:"Cycle 4 — top · December 2024", g8:"Cycle 4 — bottom · November 2022",
  bt_nota:"The full dossier (226 frames, chronologies and methodology) is included with your purchase. The backtest is educational material: past performance does not guarantee future results.",
- pr_eti:"Lifetime access", pr_tipo:"one-time payment · no subscription",
+ pr_eti:"Lifetime access", pr_badge:"LAUNCH OFFER",
+ pr_tipo:"one-time payment · no subscription · full price €97 after launch",
+ pr_ref1:"or", pr_ref2:"with a partner referral code",
  pr_l1:"Full console with all 16 metrics", pr_l2:"Data updates 3 times a day",
  pr_l3:"Complete 2011–2026 backtest dossier", pr_l4:"Future console updates included",
  cta2:"Buy access",
@@ -274,7 +282,9 @@ function setLingua(l){
 }
 document.getElementById("brand-slot").textContent = BRAND;
 document.querySelectorAll(".brand-txt").forEach(e=>e.textContent = BRAND);
-document.getElementById("prezzo-slot").textContent = PREZZO;
+document.getElementById("prezzo-slot").textContent = PREZZO_LANCIO;
+document.getElementById("prezzo-pieno").textContent = PREZZO_PIENO;
+document.getElementById("prezzo-ref").textContent = PREZZO_REF;
 document.getElementById("anno").textContent = new Date().getFullYear();
 const salvata = localStorage.getItem("lingua");
 setLingua(salvata || ((navigator.language||"it").toLowerCase().startsWith("it") ? "it" : "en"));
