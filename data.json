@@ -1,10 +1,10 @@
 {
-  "aggiornato": "2026-07-14T17:52:44+00:00",
-  "price": 64549.0,
-  "mvrvZ": 0.373,
-  "puell": 0.7187,
-  "sopr": 0.9722,
-  "reserveRisk": 0.0004982363,
+  "aggiornato": "2026-07-15T06:32:59+00:00",
+  "price": 64941.0,
+  "mvrvZ": 0.3275,
+  "puell": 0.7622,
+  "sopr": 0.991,
+  "reserveRisk": 0.0005185545,
   "hashRibbonCapitulation": true,
   "hashRibbonCrossover": false
 }
