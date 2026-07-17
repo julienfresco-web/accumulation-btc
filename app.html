@@ -40,32 +40,33 @@ function CircleIcon({ color }) {
 }
 
 function Gauge({ mvrvZ }) {
-  const MIN = -2, MAX = 10, BREAK = 2, BREAK_PCT = 15;
+  const MIN = -2, MAX = 10, BREAK = 1, BREAK_PCT = 15;
   const safeZ = isNaN(mvrvZ) ? 0 : mvrvZ;
   const clamped = Math.max(MIN, Math.min(MAX, safeZ));
-  // Scala non lineare: -2..2 occupa l'85% dell'altezza (zona decisionale), 2..10 solo il 15% (euforia estrema)
+  // Scala non lineare: -2..1 occupa l'85% dell'altezza (zona decisionale, dove il segnale si muove più spesso),
+  // 1..10 solo il 15% (rischio elevato/euforia, rari). Range più stretto di prima = movimenti giornalieri più visibili.
   const pctFromTop = clamped <= BREAK
     ? 100 - ((clamped - MIN) / (BREAK - MIN)) * (100 - BREAK_PCT)
     : BREAK_PCT - ((clamped - BREAK) / (MAX - BREAK)) * BREAK_PCT;
   const bands = [
-    { top: 0, bottom: 6.5625, label: "Euforia · top ciclo", sub: "Z > 6.5", color: COLORS.coral },
-    { top: 6.5625, bottom: 12.1875, label: "Rischio elevato", sub: "3.5 – 6.5", color: "#8A5A3A" },
-    { top: 12.1875, bottom: 57.5, label: "Neutro / espansione", sub: "0 – 3.5", color: COLORS.slate },
-    { top: 57.5, bottom: 78.75, label: "Opportunità", sub: "-1 – 0", color: COLORS.amber },
-    { top: 78.75, bottom: 100, label: "Accumulo profondo", sub: "< -1", color: COLORS.teal },
+    { top: 0, bottom: 5.833, label: "Euforia · top ciclo", sub: "Z > 6.5", color: COLORS.coral },
+    { top: 5.833, bottom: 10.833, label: "Rischio elevato", sub: "3.5 – 6.5", color: "#8A5A3A" },
+    { top: 10.833, bottom: 43.333, label: "Neutro / espansione", sub: "0 – 3.5", color: COLORS.slate },
+    { top: 43.333, bottom: 71.667, label: "Opportunità", sub: "-1 – 0", color: COLORS.amber },
+    { top: 71.667, bottom: 100, label: "Accumulo profondo", sub: "< -1", color: COLORS.teal },
   ];
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
       <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px", color: COLORS.ink, fontFamily: "'Space Grotesk', sans-serif", fontSize: "14px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.02em" }}>
         ⚓ Profondità di ciclo
       </div>
-      <div style={{ position: "relative", width: "64px", height: "380px" }}>
+      <div style={{ position: "relative", width: "46px", height: "380px" }}>
         {bands.map((b, i) => (
           <div key={i} style={{ position: "absolute", left: 0, right: 0, top: `${b.top}%`, height: `${b.bottom - b.top}%`, backgroundColor: b.color, opacity: 0.85, borderTop: i === 0 ? "none" : `1px solid ${COLORS.bgDeep}` }} />
         ))}
         <div style={{ position: "absolute", left: "50%", top: `${pctFromTop}%`, transform: "translate(-50%, -50%)" }}>
-          <div style={{ width: "26px", height: "26px", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: COLORS.ink, border: `3px solid ${COLORS.bgDeep}`, borderRadius: "50%", boxShadow: "0 0 14px 3px rgba(143,227,210,0.55)" }}>
-            <span style={{ color: COLORS.bgDeep, fontFamily: "'Space Grotesk', sans-serif", fontSize: "14px", fontWeight: 700, lineHeight: 1 }}>₿</span>
+          <div style={{ width: "24px", height: "24px", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: COLORS.ink, border: `3px solid ${COLORS.bgDeep}`, borderRadius: "50%", boxShadow: "0 0 14px 3px rgba(143,227,210,0.55)" }}>
+            <span style={{ color: COLORS.bgDeep, fontFamily: "'Space Grotesk', sans-serif", fontSize: "13px", fontWeight: 700, lineHeight: 1 }}>₿</span>
           </div>
         </div>
       </div>
