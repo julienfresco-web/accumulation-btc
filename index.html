@@ -4,14 +4,14 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>BTCQuant — Bitcoin cycle analysis console</title>
-<meta name="description" content="BTCQuant: la console che legge il ciclo di Bitcoin. 16 metriche on-chain, un verdetto giornaliero, backtest completo 2011–2026. | The Bitcoin cycle analysis console."/>
+<meta name="description" content="BTCQuant: la console che legge il ciclo di Bitcoin. 8 metriche on-chain, una lettura di ciclo aggiornata ogni giorno, backtest completo 2011–2026. | The Bitcoin cycle analysis console."/>
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"/>
 <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
 <link rel="canonical" href="https://btcquant.io/"/>
 <meta property="og:type" content="website"/>
 <meta property="og:url" content="https://btcquant.io/"/>
 <meta property="og:title" content="BTCQuant — The Bitcoin cycle analysis console"/>
-<meta property="og:description" content="16 on-chain metrics, one daily verdict, a 15-year backtest. Know which phase of the Bitcoin cycle you're in."/>
+<meta property="og:description" content="8 on-chain metrics, one daily reading, a 15-year backtest. Know which phase of the Bitcoin cycle you're in."/>
 <meta property="og:image" content="https://btcquant.io/og-image.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://btcquant.io/og-image.png"/>
@@ -144,7 +144,7 @@ footer a{color:var(--teal);text-decoration:none;margin-right:18px}
   <h2 data-t="cosa_titolo"></h2>
   <p class="intro-sez" data-t="cosa_intro"></p>
   <div class="griglia3">
-    <div class="card vetro"><div class="num">16</div><h3 data-t="c1_t"></h3><p data-t="c1_p"></p></div>
+    <div class="card vetro"><div class="num">8</div><h3 data-t="c1_t"></h3><p data-t="c1_p"></p></div>
     <div class="card vetro"><div class="num">3/4</div><h3 data-t="c2_t"></h3><p data-t="c2_p"></p></div>
     <div class="card vetro"><div class="num">1</div><h3 data-t="c3_t"></h3><p data-t="c3_p"></p></div>
   </div>
@@ -210,6 +210,18 @@ footer a{color:var(--teal);text-decoration:none;margin-right:18px}
   <div class="disclaimer" data-t="disc"></div>
 </div></section>
 
+<section><div class="wrap">
+  <div class="etichetta" data-t="dif1_eti"></div>
+  <h2 data-t="dif1_titolo"></h2>
+  <p class="intro-sez" data-t="dif1_intro"></p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="etichetta" data-t="dif2_eti"></div>
+  <h2 data-t="dif2_titolo"></h2>
+  <p class="intro-sez" data-t="dif2_intro"></p>
+</div></section>
+
 <footer><div class="wrap">
   <div>© <span id="anno"></span> <span class="brand-txt"></span> — <span data-t="ft_diritti"></span></div>
   <div>
@@ -235,15 +247,15 @@ const PREZZO_REF    = "€39";   // prezzo con codice referral partner
 const T = {
 it:{
  hero_titolo:"La console che legge <em>il ciclo di Bitcoin</em>, non il rumore.",
- hero_sotto:"16 metriche on-chain, una regola anti-falsi-segnali, un verdetto giornaliero. Sapere in quale fase del ciclo ti trovi, ogni giorno, senza interpretazioni.",
+ hero_sotto:"8 metriche on-chain, una regola anti-falsi-positivi, una lettura di ciclo aggiornata ogni giorno. Sapere in quale fase del ciclo ti trovi, ogni giorno, senza interpretazioni.",
  cta:"Accedi alla console", hero_nota:"Acquisto una tantum · Nessun abbonamento · Dati aggiornati in automatico 3 volte al giorno, zero inserimento manuale",
  cd_label:"Lancio ufficiale · 30 agosto 2026", cd_giorni:"giorni", cd_ore:"ore", cd_min:"minuti", cd_sec:"secondi",
  nav_accedi:"Accedi →",
  cosa_eti:"Come funziona", cosa_titolo:"Un solo quadrante, tutta la catena",
  cosa_intro:"La console sintetizza le principali metriche on-chain in un punteggio composito e lo traduce in una fascia operativa chiara.",
  c1_t:"Metriche on-chain", c1_p:"MVRV Z-Score, SOPR, Puell Multiple, Reserve Risk, Hash Ribbons e altre, aggiornate 3 volte al giorno da fonti indipendenti.",
- c2_t:"Regola anti-falsi-segnali", c2_p:"Un segnale estremo scatta solo con la conferma di almeno 3 delle 4 metriche pesanti: niente allarmi su oscillazioni isolate.",
- c3_t:"Verdetto giornaliero", c3_p:"Nessun grafico da interpretare: la console restituisce una lettura sintetica della fase di ciclo, ogni giorno.",
+ c2_t:"Regola anti-falsi-positivi", c2_p:"Una lettura estrema scatta solo con la conferma di almeno 3 delle 4 metriche pesanti: niente allarmi su oscillazioni isolate.",
+ c3_t:"Lettura giornaliera", c3_p:"Nessun grafico da interpretare: la console restituisce una lettura sintetica della fase di ciclo, ogni giorno.",
  fasce_eti:"La mappa", fasce_titolo:"Le cinque fasce del ciclo",
  fasce_intro:"Ogni giorno il quadrante colloca il mercato in una delle cinque fasce, costruite sull'MVRV Z-Score e validate su quindici anni di storia.",
  f1_n:"Euforia", f1_d:"Zona storica dei massimi di ciclo",
@@ -253,7 +265,7 @@ it:{
  f5_n:"Accumulo profondo", f5_d:"Zona estrema sotto il costo base della rete",
  bt_eti:"Backtest 2011–2026", bt_titolo:"Quindici anni di storia, frame per frame",
  bt_intro:"2011, 2013–15, 2017–18, 2021–22: li abbiamo osservati e studiati da vicino, anno dopo anno, prima di scrivere una sola riga di questa console. Poi abbiamo ricostruito il comportamento del sistema su quei quattro cicli completi, giorno per giorno, con dati CoinMetrics. Questo è il risultato — compresa la scoperta più importante: gli estremi si comprimono a ogni ciclo.",
- s1:"cicli completi analizzati", s2:"frame documentati", s3:"falsi segnali di Euforia in 15 anni", s4:"anni di dati giornalieri",
+ s1:"cicli completi analizzati", s2:"frame documentati", s3:"falsi positivi di Euforia in 15 anni", s4:"anni di dati giornalieri",
  bt_gal_t:"I momenti chiave, visti dalla console",
  bt_gal_p:"Come il quadrante avrebbe fotografato ogni massimo e ogni minimo dei quattro cicli.",
  g1:"Ciclo 1 — massimo · aprile 2013", g2:"Ciclo 1 — minimo · ottobre 2011",
@@ -264,26 +276,28 @@ it:{
  pr_eti:"Accesso a vita", pr_badge:"OFFERTA DI LANCIO",
  pr_tipo:"pagamento unico · nessun abbonamento · prezzo pieno €97 al termine del lancio",
  pr_ref1:"oppure", pr_ref2:"con il codice referral di un partner",
- pr_l1:"Console completa con le 16 metriche", pr_l2:"Aggiornamenti dati 3 volte al giorno",
+ pr_l1:"Console completa con le 8 metriche", pr_l2:"Aggiornamenti dati 3 volte al giorno",
  pr_l3:"Dossier backtest 2011–2026 completo", pr_l4:"Aggiornamenti futuri della console inclusi",
  cta2:"Acquista l'accesso",
  pr_email:"Importante: per accedere userai la stessa email con cui effettui il pagamento.",
  disc:"Questo strumento ha finalità esclusivamente didattiche e informative. Non costituisce consulenza finanziaria, raccomandazione personalizzata di investimento né sollecitazione all'acquisto o alla vendita di cripto-attività. Le performance passate non sono garanzia di risultati futuri. Investire in cripto-attività comporta rischi elevati, inclusa la perdita totale del capitale.",
+ dif1_eti:"Cosa ci distingue", dif1_titolo:"Vedi cosa muove ogni lettura, non solo il risultato", dif1_intro:"La maggior parte degli strumenti che promettono di leggere il ciclo di Bitcoin ti dà un punteggio unico, senza spiegare cosa lo ha generato. In BTCQuant ogni metrica ha il proprio semaforo, la propria soglia e il proprio dato in tempo reale: vedi esattamente quale metrica sta spingendo il quadrante verso Opportunità o verso Euforia. E la lettura finale non è una somma qualsiasi: scatta solo quando almeno 3 delle 4 metriche di valutazione profonda convergono nella stessa direzione, una regola pensata apposta per evitare che un singolo indicatore instabile generi un falso positivo.",
+ dif2_eti:"Il metodo", dif2_titolo:"Nessun guru, nessuna opinione: solo un processo replicabile", dif2_intro:"Molti servizi di analisi cripto si basano su un'opinione — quella di un trader, di un canale Telegram, di chi chiama i minimi a sensazione. BTCQuant non interpreta: applica sempre la stessa regola, agli stessi dati, con lo stesso rigore, per ogni utente, ogni giorno. La pipeline scarica ed elabora i dati da fonti indipendenti tre volte al giorno senza intervento manuale — nessun numero viene corretto a mano — e il metodo è stato validato su tutti e quattro i cicli completi di Bitcoin dal 2011 a oggi, non su un grafico isolato scelto a posteriori.",
  ft_diritti:"Tutti i diritti riservati", ft_privacy:"Privacy Policy", ft_termini:"Termini di Servizio",
  cookie_msg:"Questo sito usa solo cookie tecnici necessari al funzionamento (sessione di accesso e lingua scelta). Nessun cookie di profilazione o marketing.",
  cookie_link:"Maggiori informazioni", cookie_ok:"Ho capito",
 },
 en:{
  hero_titolo:"The console that reads <em>Bitcoin's cycle</em>, not the noise.",
- hero_sotto:"16 on-chain metrics, one anti-false-signal rule, one daily verdict. Know which phase of the cycle you're in, every day, with no interpretation needed.",
+ hero_sotto:"8 on-chain metrics, one anti-false-positive rule, one daily reading. Know which phase of the cycle you're in, every day, with no interpretation needed.",
  cta:"Get console access", hero_nota:"One-time purchase · No subscription · Data updates automatically 3 times a day, zero manual input",
  cd_label:"Official launch · August 30, 2026", cd_giorni:"days", cd_ore:"hours", cd_min:"minutes", cd_sec:"seconds",
  nav_accedi:"Log in →",
  cosa_eti:"How it works", cosa_titolo:"One dial, the whole chain",
  cosa_intro:"The console distills the key on-chain metrics into a composite score and translates it into a clear operating band.",
  c1_t:"On-chain metrics", c1_p:"MVRV Z-Score, SOPR, Puell Multiple, Reserve Risk, Hash Ribbons and more, updated 3 times a day from independent sources.",
- c2_t:"Anti-false-signal rule", c2_p:"An extreme signal only fires when at least 3 of the 4 heavy metrics agree: no alarms on isolated swings.",
- c3_t:"Daily verdict", c3_p:"No charts to interpret: the console returns a synthetic reading of the cycle phase, every day.",
+ c2_t:"Anti-false-positive rule", c2_p:"An extreme reading only fires when at least 3 of the 4 heavy metrics agree: no alarms on isolated swings.",
+ c3_t:"Daily reading", c3_p:"No charts to interpret: the console returns a synthetic reading of the cycle phase, every day.",
  fasce_eti:"The map", fasce_titolo:"The five cycle bands",
  fasce_intro:"Every day the dial places the market in one of five bands, built on the MVRV Z-Score and validated over fifteen years of history.",
  f1_n:"Euphoria", f1_d:"Historical zone of cycle tops",
@@ -293,7 +307,7 @@ en:{
  f5_n:"Deep accumulation", f5_d:"Extreme zone below the network's cost basis",
  bt_eti:"Backtest 2011–2026", bt_titolo:"Fifteen years of history, frame by frame",
  bt_intro:"2011, 2013–15, 2017–18, 2021–22: we watched and studied them closely, year after year, before writing a single line of this console. Then we reconstructed the system's behavior across those four full cycles, day by day, using CoinMetrics data. This is the result — including the most important finding: extremes compress with every cycle.",
- s1:"full cycles analyzed", s2:"documented frames", s3:"false Euphoria signals in 15 years", s4:"years of daily data",
+ s1:"full cycles analyzed", s2:"documented frames", s3:"false Euphoria positives in 15 years", s4:"years of daily data",
  bt_gal_t:"The key moments, as seen by the console",
  bt_gal_p:"How the dial would have captured every top and every bottom of the four cycles.",
  g1:"Cycle 1 — top · April 2013", g2:"Cycle 1 — bottom · October 2011",
@@ -304,11 +318,13 @@ en:{
  pr_eti:"Lifetime access", pr_badge:"LAUNCH OFFER",
  pr_tipo:"one-time payment · no subscription · full price €97 after launch",
  pr_ref1:"or", pr_ref2:"with a partner referral code",
- pr_l1:"Full console with all 16 metrics", pr_l2:"Data updates 3 times a day",
+ pr_l1:"Full console with all 8 metrics", pr_l2:"Data updates 3 times a day",
  pr_l3:"Complete 2011–2026 backtest dossier", pr_l4:"Future console updates included",
  cta2:"Buy access",
  pr_email:"Important: you'll sign in with the same email you use for the payment.",
  disc:"This tool is for educational and informational purposes only. It does not constitute financial advice, a personalized investment recommendation, or a solicitation to buy or sell crypto-assets. Past performance is no guarantee of future results. Investing in crypto-assets involves high risk, including total loss of capital.",
+ dif1_eti:"What sets us apart", dif1_titolo:"See what moves each reading, not just the result", dif1_intro:"Most tools that promise to read Bitcoin's cycle give you a single score without explaining what produced it. In BTCQuant, every metric has its own light, its own threshold, and its own real-time data point: you see exactly which metric is pushing the dial toward Opportunity or toward Euphoria. And the final reading isn't an arbitrary sum: it only fires when at least 3 of the 4 deep-valuation metrics converge in the same direction — a rule built specifically to stop a single unstable indicator from producing a false positive.",
+ dif2_eti:"The method", dif2_titolo:"No gurus, no opinions: just a repeatable process", dif2_intro:"Many crypto analysis services run on someone's opinion — a trader, a Telegram channel, whoever calls the bottom by gut feeling. BTCQuant doesn't interpret: it applies the same rule, to the same data, with the same rigor, for every user, every day. The pipeline pulls and processes data from independent sources three times a day with no manual input — no number is ever hand-corrected — and the method has been validated across all four complete Bitcoin cycles from 2011 to today, not on one cherry-picked chart.",
  ft_diritti:"All rights reserved", ft_privacy:"Privacy Policy", ft_termini:"Terms of Service",
  cookie_msg:"This site only uses technical cookies necessary for operation (login session and selected language). No profiling or marketing cookies.",
  cookie_link:"Learn more", cookie_ok:"Got it",
