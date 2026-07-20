@@ -54,9 +54,10 @@ function Gauge({ mvrvZ }) {
     { top: 0, bottom: 11.846, label: "Euforia · top ciclo", sub: "Z > 6.5", color: COLORS.coral },
     { top: 11.846, bottom: 22, label: "Rischio elevato", sub: "3.5 – 6.5", color: "#8A5A3A" },
     { top: 22, bottom: 50, label: "Neutro / espansione", sub: "0 – 3.5", color: COLORS.slate },
-    { top: 50, bottom: 75, label: "Opportunità", sub: "-1 – 0", color: COLORS.amber },
-    { top: 75, bottom: 100, label: "Accumulo profondo", sub: "< -1", color: COLORS.teal },
+    { top: 50, bottom: 75, label: "Opportunità", sub: "< 0", color: COLORS.amber },
+    { top: 75, bottom: 100, label: "Opportunità", sub: "< 0", color: "#B8752A" },
   ];
+  const legendBands = bands.filter((_, i) => i !== 4);
   // Arco semicircolare: 0% = Accumulo (estremo sinistro), 100% = Euforia (estremo destro).
   // "top"/"bottom" restano quelli calcolati sopra (convenzione Euforia-in-alto); qui li
   // convertiamo in angoli 180°→360° (sinistra→sopra→destra) con lo stesso raggio per tutte le fasce.
@@ -84,7 +85,7 @@ function Gauge({ mvrvZ }) {
         </g>
       </svg>
       <div style={{ marginTop: "8px", display: "flex", flexDirection: "column", gap: "6px", width: "100%", maxWidth: "260px" }}>
-        {bands.map((b, i) => (
+        {legendBands.map((b, i) => (
           <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: "12px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               <div style={{ width: "8px", height: "8px", backgroundColor: b.color, borderRadius: "2px" }} />
@@ -485,7 +486,7 @@ function AccumulationConsole() {
         <div style={{ borderRadius: "8px", padding: "20px", backgroundColor: COLORS.bgPanelAlt, border: `1px solid ${COLORS.border}`, borderLeft: `3px solid ${COLORS.teal}` }}>
           <span style={{ fontFamily: "'Space Grotesk', sans-serif", color: COLORS.ink, fontSize: "13px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.03em", display: "block", marginBottom: "10px" }}>Nota del team · da utilizzatori, prima che da sviluppatori</span>
           <p style={{ color: COLORS.muted, fontSize: "13px", lineHeight: 1.7, margin: "0 0 10px" }}>
-            Questa console la usiamo noi per primi, ogni giorno. E da utilizzatori il nostro approccio è questo: preferiamo iniziare ad acquistare già in fase di <strong style={{ color: COLORS.ink }}>Opportunità</strong>, senza aspettare l'<strong style={{ color: COLORS.ink }}>Accumulo profondo</strong> — che nei cicli passati è comparso raramente, per finestre brevi, e sempre nei momenti psicologicamente più difficili per comprare. Aspettarlo può significare restare fuori dal ciclo. In uscita, preferiamo alleggerire in modo progressivo nella parte alta della fascia <strong style={{ color: COLORS.ink }}>Neutro/espansione</strong> o appena dentro il <strong style={{ color: COLORS.ink }}>Rischio elevato</strong>, senza inseguire il massimo assoluto: l'euforia si riconosce con certezza solo col senno di poi.
+            Questa console la usiamo noi per primi, ogni giorno. E da utilizzatori il nostro approccio è questo: preferiamo iniziare ad acquistare già nella prima parte della fascia <strong style={{ color: COLORS.ink }}>Opportunità</strong>, senza aspettare la sua zona più profonda — che nei cicli passati è stata raggiunta raramente, per finestre brevi, e sempre nei momenti psicologicamente più difficili per comprare. Aspettarla può significare restare fuori dal ciclo. In uscita, preferiamo alleggerire in modo progressivo nella parte alta della fascia <strong style={{ color: COLORS.ink }}>Neutro/espansione</strong> o appena dentro il <strong style={{ color: COLORS.ink }}>Rischio elevato</strong>, senza inseguire il massimo assoluto: l'euforia si riconosce con certezza solo col senno di poi.
           </p>
           <p style={{ color: COLORS.mutedDim, fontSize: "11px", lineHeight: 1.6, margin: 0 }}>
             Questa è un'opinione del team su come leggiamo lo strumento — non una consulenza finanziaria né una raccomandazione d'investimento personalizzata. Ogni decisione operativa resta esclusivamente tua.
@@ -563,24 +564,34 @@ function AuthGate() {
     const container = document.getElementById("tv-chart-container");
     if (!container) return;
     container.innerHTML = "";
-    const script = document.createElement("script");
-    script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
-    script.async = true;
-    script.innerHTML = JSON.stringify({
-      autosize: true,
-      symbol: "BITSTAMP:BTCUSD",
-      interval: "D",
-      timezone: "Etc/UTC",
-      theme: "dark",
-      style: "1",
-      locale: "it",
-      backgroundColor: COLORS.bgPanel,
-      gridColor: "rgba(30,46,66,0.5)",
-      hide_top_toolbar: false,
-      allow_symbol_change: false,
-      support_host: "https://www.tradingview.com",
-    });
-    container.appendChild(script);
+
+    function creaWidget() {
+      if (!window.TradingView || !document.getElementById("tv-chart-container")) return;
+      new window.TradingView.widget({
+        autosize: true,
+        symbol: "BITSTAMP:BTCUSD",
+        interval: "D",
+        timezone: "Etc/UTC",
+        theme: "dark",
+        style: "1",
+        locale: "it",
+        toolbar_bg: COLORS.bgPanel,
+        enable_publishing: false,
+        allow_symbol_change: false,
+        container_id: "tv-chart-container",
+      });
+    }
+
+    if (window.TradingView) {
+      creaWidget();
+    } else {
+      const script = document.createElement("script");
+      script.src = "https://s3.tradingview.com/tv.js";
+      script.async = true;
+      script.onload = creaWidget;
+      script.onerror = () => { container.innerHTML = "<p style='color:#8494A7;font-size:12px;padding:16px'>Impossibile caricare il grafico TradingView. Riprova tra qualche istante.</p>"; };
+      document.body.appendChild(script);
+    }
   }, [pannello]);
 
   const METRICHE_INFO = [
