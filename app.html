@@ -705,7 +705,7 @@ function AuthGate() {
 
         {pannello && (
           <div onClick={() => setPannello(null)} style={{ position: "fixed", inset: 0, zIndex: 30, backgroundColor: "rgba(10,20,32,0.85)", display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "60px 16px 16px", overflowY: "auto" }}>
-            <div onClick={(e) => e.stopPropagation()} style={{ backgroundColor: COLORS.bgPanel, border: `1px solid ${COLORS.border}`, borderRadius: "12px", maxWidth: "720px", width: "100%", padding: "24px" }}>
+            <div onClick={(e) => e.stopPropagation()} style={{ backgroundColor: COLORS.bgPanel, border: `1px solid ${COLORS.border}`, borderRadius: "12px", maxWidth: "840px", width: "100%", padding: "24px" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "18px" }}>
                 <span style={{ fontFamily: "'Space Grotesk', sans-serif", color: COLORS.ink, fontSize: "18px", fontWeight: 700 }}>
                   {pannello === "metriche" ? "Metriche spiegate" : "Backtest"}
@@ -729,7 +729,7 @@ function AuthGate() {
                   <p style={{ color: COLORS.mutedDim, fontSize: "12px", marginBottom: "16px", lineHeight: 1.6 }}>
                     16 frame disponibili oggi su un dossier completo di 226 (4 cicli, ogni transizione di fascia). Il resto verrà pubblicato progressivamente.
                   </p>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: "10px" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "12px" }}>
                     {["c1-top", "c1-bottom", "c2-top", "c2-bottom", "c3-top", "c3-bottom", "c4-top", "c4-bottom"].map((f) => (
                       <img key={f} src={`backtest/${f}-it.png`} alt={f} loading="lazy" style={{ width: "100%", borderRadius: "6px", border: `1px solid ${COLORS.border}` }} />
                     ))}
