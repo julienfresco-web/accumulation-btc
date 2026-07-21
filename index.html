@@ -50,6 +50,8 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:6
   padding:15px 38px;border-radius:12px;text-decoration:none;font-family:'Space Grotesk';
   box-shadow:0 6px 28px rgba(216,163,78,.30)}
 .cta:hover{filter:brightness(1.08)}
+.cta-disattivo{background:var(--bordo);color:var(--muto);box-shadow:none;opacity:.85;cursor:default}
+.cta-disattivo:hover{filter:none}
 .sotto-cta{color:var(--muto);font-size:13px;margin-top:14px}
 
 /* sezioni */
@@ -195,9 +197,9 @@ footer a{color:var(--teal);text-decoration:none;margin-right:18px}
     <ul>
       <li data-t="pr_l1"></li><li data-t="pr_l2"></li><li data-t="pr_l3"></li><li data-t="pr_l4"></li>
     </ul>
-    <!-- LINK STRIPE: sostituire con il Payment Link LIVE prima del lancio -->
-    <a class="cta" data-t="cta2" href="https://buy.stripe.com/test_8x2eVe5rY2SG0UD60N8IU00"></a>
-    <div class="sotto-cta" data-t="pr_email"></div>
+    <!-- LINK STRIPE: quando l'account è live, rimetti qui il Payment Link, togli aria-disabled/onclick/cta-disattivo, e rimetti data-t="pr_email" -->
+    <a class="cta cta-disattivo" data-t="cta2" href="#prezzo" aria-disabled="true" onclick="return false;"></a>
+    <div class="sotto-cta" data-t="pr_nota_attesa"></div>
   </div>
 </div></section>
 
@@ -269,8 +271,9 @@ it:{
  pr_ref1:"oppure", pr_ref2:"con il codice referral di un partner",
  pr_l1:"Console completa con le 8 metriche", pr_l2:"Aggiornamenti dati 3 volte al giorno",
  pr_l3:"Dossier backtest 2011–2026 completo", pr_l4:"Aggiornamenti futuri della console inclusi",
- cta2:"Acquista l'accesso",
+ cta2:"Presto disponibile",
  pr_email:"Importante: per accedere userai la stessa email con cui effettui il pagamento.",
+ pr_nota_attesa:"L'accesso a pagamento apre il 30 agosto — non ancora attivo.",
  disc:"Questo strumento ha finalità esclusivamente didattiche e informative. Non costituisce consulenza finanziaria, raccomandazione personalizzata di investimento né sollecitazione all'acquisto o alla vendita di cripto-attività. Le performance passate non sono garanzia di risultati futuri. Investire in cripto-attività comporta rischi elevati, inclusa la perdita totale del capitale.",
  dif1_eti:"Cosa ci distingue", dif1_titolo:"Vedi cosa muove ogni lettura, non solo il risultato", dif1_intro:"La maggior parte degli strumenti che promettono di leggere il ciclo di Bitcoin ti dà un punteggio unico, senza spiegare cosa lo ha generato. In BTCQuant ogni metrica ha il proprio semaforo, la propria soglia e il proprio dato in tempo reale: vedi esattamente quale metrica sta spingendo il quadrante verso Opportunità o verso Euforia. E la lettura finale non è una somma qualsiasi: scatta solo quando almeno 3 delle 4 metriche di valutazione profonda convergono nella stessa direzione, una regola pensata apposta per evitare che un singolo indicatore instabile generi un falso positivo.",
  dif2_eti:"Il metodo", dif2_titolo:"Nessun guru, nessuna opinione: solo un processo replicabile", dif2_intro:"Molti servizi di analisi cripto si basano su un'opinione — quella di un trader, di un canale Telegram, di chi chiama i minimi a sensazione. BTCQuant non interpreta: applica sempre la stessa regola, agli stessi dati, con lo stesso rigore, per ogni utente, ogni giorno. La pipeline scarica ed elabora i dati da fonti indipendenti tre volte al giorno senza intervento manuale — nessun numero viene corretto a mano — e il metodo è stato validato su tutti e quattro i cicli completi di Bitcoin dal 2011 a oggi, non su un grafico isolato scelto a posteriori.",
@@ -307,8 +310,9 @@ en:{
  pr_ref1:"or", pr_ref2:"with a partner referral code",
  pr_l1:"Full console with all 8 metrics", pr_l2:"Data updates 3 times a day",
  pr_l3:"Complete 2011–2026 backtest dossier", pr_l4:"Future console updates included",
- cta2:"Buy access",
+ cta2:"Coming soon",
  pr_email:"Important: you'll sign in with the same email you use for the payment.",
+ pr_nota_attesa:"Paid access opens August 30 — not yet active.",
  disc:"This tool is for educational and informational purposes only. It does not constitute financial advice, a personalized investment recommendation, or a solicitation to buy or sell crypto-assets. Past performance is no guarantee of future results. Investing in crypto-assets involves high risk, including total loss of capital.",
  dif1_eti:"What sets us apart", dif1_titolo:"See what moves each reading, not just the result", dif1_intro:"Most tools that promise to read Bitcoin's cycle give you a single score without explaining what produced it. In BTCQuant, every metric has its own light, its own threshold, and its own real-time data point: you see exactly which metric is pushing the dial toward Opportunity or toward Euphoria. And the final reading isn't an arbitrary sum: it only fires when at least 3 of the 4 deep-valuation metrics converge in the same direction — a rule built specifically to stop a single unstable indicator from producing a false positive.",
  dif2_eti:"The method", dif2_titolo:"No gurus, no opinions: just a repeatable process", dif2_intro:"Many crypto analysis services run on someone's opinion — a trader, a Telegram channel, whoever calls the bottom by gut feeling. BTCQuant doesn't interpret: it applies the same rule, to the same data, with the same rigor, for every user, every day. The pipeline pulls and processes data from independent sources three times a day with no manual input — no number is ever hand-corrected — and the method has been validated across all four complete Bitcoin cycles from 2011 to today, not on one cherry-picked chart.",
